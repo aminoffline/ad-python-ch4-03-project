@@ -6,7 +6,7 @@ import requests
 table_name = 'cars'
 table_key = ['vehicle_title', 'vehicle_mileage', 'vehicle_color', 'vehicle_condition', 'vehicle_location', 'vehicle_price']
 print('Please enter vehicle Brand for example Alfa-romeo \nEntering WRONG name may cause problem ')
-brand = input(':')
+brand = input('>>>')
 response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}')
 print(response, response.ok, response.url)
 
