@@ -5,15 +5,28 @@ import requests
 
 table_name = 'cars'
 table_key = ['vehicle_title', 'vehicle_mileage', 'vehicle_color', 'vehicle_condition', 'vehicle_location', 'vehicle_price']
-print('Please enter vehicle Brand for example Alfa-romeo \nEntering WRONG name may cause problem ')
-brand = input('>>>')
-response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}')
-print(response, response.ok, response.url)
-
 # csv_file = open('results.csv', 'w')
 # csv.writer = csv.writer(csv_file)
 # csv.writer.writerow(table_key)
 
+print('Please enter vehicle Brand for example Alfa-romeo \nEntering WRONG name may cause problem ')
+brand = input('>>>')
+brand = brand.casefold()
+brand = brand.replace(" ", "-")
+
+"""response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}')
+soup = BeautifulSoup(response.text, 'lxml')
+models = soup.find('select',attrs={"data-test":"searchFiltersModel"})
+print(models.prettify())
+"""
+
+print('Please enter vehicle model for example giulia \nEntering WRONG name may cause problem ')
+model = input('>>>')
+model = model.casefold()
+model = model.replace(' ', '-')
+
+response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}/{model}')
+print(response, response.ok, response.url)
 soup = BeautifulSoup(response.text, 'lxml')
 for post in soup.find_all('div', attrs={"data-test": "cardContent"})[:20]:
     try:
@@ -28,7 +41,7 @@ for post in soup.find_all('div', attrs={"data-test": "cardContent"})[:20]:
         v_location = post.find('div', attrs={"data-test": "vehicleCardLocation"})
         v_price = post.find('div', attrs={"data-test": "vehicleListingPriceAmount"})
         values = [car_title, v_mileage.text, v_color.text, v_condition.text, v_location.text, v_price.text]
-      # csv.writer.writerow([car_title, v_mileage.text, v_color.text, v_condition.text, v_location.text, v_price.text])
+        # csv.writer.writerow([car_title, v_mileage.text, v_color.text, v_condition.text, v_location.text, v_price.text])
         Insert_Table(table_name, table_key, values)
     except:
         pass
