@@ -8,8 +8,10 @@ table_key = ['vehicle_title', 'vehicle_mileage', 'vehicle_color', 'vehicle_condi
 # csv_file = open('results.csv', 'w')
 # csv.writer = csv.writer(csv_file)
 # csv.writer.writerow(table_key)
+print('What do u want? New or Used ')
+new_or_used = input('>>>')
 
-print('Please enter vehicle Brand for example Alfa-romeo \nEntering WRONG name may cause problem ')
+print('Entering WRONG name may cause problem \nPlease enter vehicle Brand for example Alfa-romeo')
 brand = input('>>>')
 brand = brand.casefold()
 brand = brand.replace(" ", "-")
@@ -19,7 +21,7 @@ model = input('>>>')
 model = model.casefold()
 model = model.replace(' ', '-')
 
-response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}/{model}', timeout=30)
+response = requests.get(f'https://www.truecar.com/{new_or_used}-cars-for-sale/listings/{brand}/{model}', timeout=30)
 print(response, response.ok, response.url)
 soup = BeautifulSoup(response.text, 'lxml')
 for post in soup.find_all('div', attrs={"data-test": "cardContent"})[:20]:
