@@ -19,7 +19,7 @@ model = input('>>>')
 model = model.casefold()
 model = model.replace(' ', '-')
 
-response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}/{model}')
+response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}/{model}', timeout=30)
 print(response, response.ok, response.url)
 soup = BeautifulSoup(response.text, 'lxml')
 for post in soup.find_all('div', attrs={"data-test": "cardContent"})[:20]:
@@ -35,7 +35,7 @@ for post in soup.find_all('div', attrs={"data-test": "cardContent"})[:20]:
         v_location = post.find('div', attrs={"data-test": "vehicleCardLocation"})
         v_price = post.find('div', attrs={"data-test": "vehicleListingPriceAmount"})
         values = [car_title, v_mileage.text, v_color.text, v_condition.text, v_location.text, v_price.text]
-        # csv.writer.writerow([car_title, v_mileage.text, v_color.text, v_condition.text, v_location.text, v_price.text])
+      # csv.writer.writerow([car_title, v_mileage.text, v_color.text, v_condition.text, v_location.text, v_price.text])
         Insert_Table(table_name, table_key, values)
     except:
         pass
