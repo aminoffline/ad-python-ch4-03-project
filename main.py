@@ -14,12 +14,6 @@ brand = input('>>>')
 brand = brand.casefold()
 brand = brand.replace(" ", "-")
 
-"""response = requests.get(f'https://www.truecar.com/used-cars-for-sale/listings/{brand}')
-soup = BeautifulSoup(response.text, 'lxml')
-models = soup.find('select',attrs={"data-test":"searchFiltersModel"})
-print(models.prettify())
-"""
-
 print('Please enter vehicle model for example giulia \nEntering WRONG name may cause problem ')
 model = input('>>>')
 model = model.casefold()
